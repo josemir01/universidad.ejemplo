@@ -1,5 +1,6 @@
 package Modelo;
 
+import java.time.LocalDate;
 import java.util.HashSet;
 
 /*
@@ -12,24 +13,51 @@ import java.util.HashSet;
  * @author Admin
  */
 public class Alumno {
-private int legajo;
+private int dni;
+private int id_alumno=-1;
+private LocalDate fecha;
+private boolean estado;
 private String apellido;
 private String nombre;
-private HashSet<Materia>lista;
 
-    public Alumno(int legajo, String apellido, String nombre) {
-        this.legajo = legajo;
+    public Alumno(int dni, LocalDate fecha, boolean estado, String apellido, String nombre) {
+        this.dni = dni;
+        this.fecha = fecha;
+        this.estado = estado;
         this.apellido = apellido;
         this.nombre = nombre;
-        this.lista=new HashSet<>();
     }
 
-    public int getLegajo() {
-        return legajo;
+    public int getDni() {
+        return dni;
     }
 
-    public void setLegajo(int legajo) {
-        this.legajo = legajo;
+    public void setDni(int dni) {
+        this.dni = dni;
+    }
+
+    public int getId_alumno() {
+        return id_alumno;
+    }
+
+    public void setId_alumno(int id_alumno) {
+        this.id_alumno = id_alumno;
+    }
+
+    public LocalDate getFecha() {
+        return fecha;
+    }
+
+    public void setFecha(LocalDate fecha) {
+        this.fecha = fecha;
+    }
+
+    public boolean isEstado() {
+        return estado;
+    }
+
+    public void setEstado(boolean estado) {
+        this.estado = estado;
     }
 
     public String getApellido() {
@@ -47,27 +75,7 @@ private HashSet<Materia>lista;
     public void setNombre(String nombre) {
         this.nombre = nombre;
     }
-    
-   public void agregarMaterias(Materia m){
-    if(!lista.contains(m)){
-      lista.add(m);  
-      }
-    }
-   public int cantidadMaterias(){
-       int contador=0;
-       for (Materia aux : lista) {
-          if(lista.contains(aux));
-          contador++;
-       }
- 
-       
-    return contador;
-     
-       
-   } 
 
-    @Override
-    public String toString() {
-        return legajo + " " + nombre + " " + apellido;
-    }
+    
+   
 }
