@@ -37,7 +37,7 @@ public void insertarAlumno(Alumno e){
     }
 
     ps.close();
-    System.out.println("Guardado!");
+    System.out.println("Alumno Guardado!");
 } catch (SQLException ex) {
     ex.printStackTrace();
 }
