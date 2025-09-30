@@ -1,14 +1,11 @@
 package Modelo;
 
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
-
-/**
- *
- * @author Admin
- */
 public class Inscripcion {
-    
+    /*
+    private int idInscripto = -1;
+    private int idAlumno;
+    private int idMateria;
+    private int nota;
+    */
+    // hay q encontrar la forma de pasarle el idAlumno e idMateria como parametro
 }
