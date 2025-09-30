@@ -14,8 +14,10 @@ public class javaMain {
     public static void main(String []args){
         Conexion cn = new Conexion("jdbc:mariadb://localhost:3306/universidadulp", "root", "");
         Alumno a1 = new Alumno(34685984, LocalDate.of(2004, Month.MAY, 12), true, "Bonetto", "Luca");
+        Alumno a12 = new Alumno(47893573, LocalDate.of(2006, 7, 11), true, "Diaz", "Agustin");
         AlumnoData ad1 = new AlumnoData(cn);
         ad1.insertarAlumno(a1);
+        ad1.insertarAlumno(a12);
         
         
     }
