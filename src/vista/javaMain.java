@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package Vista;
+package vista;
 
 import Modelo.Alumno;
 import Persistencia.AlumnoData;
@@ -24,8 +24,6 @@ public class javaMain {
         AlumnoData ad1 = new AlumnoData(conexion);
         ad1.insertarAlumno(a1);
         ad1.insertarAlumno(a12);
-
-        AlumnoData alumnoData = new AlumnoData(conexion);
 
         int opcion;
         do {
@@ -56,17 +54,17 @@ public class javaMain {
                     LocalDate fecha = LocalDate.parse(fechaStr);
 
                     Alumno nuevo = new Alumno(dni, fecha, true, apellido, nombre);
-                    alumnoData.insertarAlumno(nuevo);
+                    ad1.insertarAlumno(nuevo);
                     break;
 
                 case 2:
-                    alumnoData.mostrarTodos();
+                    ad1.mostrarTodos();
                     break;
 
                 case 3:
                     System.out.println("Ingrese ID de alumno:");
                     int idBuscar = sc.nextInt();
-                    alumnoData.buscarAlumno(idBuscar);
+                    ad1.buscarAlumno(idBuscar);
                     break;
 
                 case 4:
@@ -77,25 +75,25 @@ public class javaMain {
                     String nuevoApellido = sc.nextLine();
                     System.out.println("Nuevo nombre:");
                     String nuevoNombre = sc.nextLine();
-                    alumnoData.actualizarAlumno(idAct, nuevoApellido, nuevoNombre);
+                    ad1.actualizarAlumno(idAct, nuevoApellido, nuevoNombre);
                     break;
 
                 case 5:
                     System.out.println("ID del alumno a dar de baja:");
                     int idBaja = sc.nextInt();
-                    alumnoData.bajaLogica(idBaja);
+                    ad1.bajaLogica(idBaja);
                     break;
 
                 case 6:
                     System.out.println("ID del alumno a dar de alta:");
                     int idAlta = sc.nextInt();
-                    alumnoData.altaLogica(idAlta);
+                    ad1.altaLogica(idAlta);
                     break;
 
                 case 7:
                     System.out.println("ID del alumno a borrar:");
                     int idBorrar = sc.nextInt();
-                    alumnoData.borrarAlumno(idBorrar);
+                    ad1.borrarAlumno(idBorrar);
                     break;
 
                 case 0:
