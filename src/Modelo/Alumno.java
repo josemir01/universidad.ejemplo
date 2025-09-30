@@ -3,15 +3,6 @@ package Modelo;
 import java.time.LocalDate;
 import java.util.HashSet;
 
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
-
-/**
- *
- * @author Admin
- */
 public class Alumno {
 private int dni;
 private int id_alumno=-1;
