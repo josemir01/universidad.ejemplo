@@ -91,14 +91,19 @@ public class jfPrincipal extends javax.swing.JFrame {
     private void jmiGestionAlumnosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmiGestionAlumnosActionPerformed
         jdpEscritorio.removeAll();
         jdpEscritorio.repaint();
-        jifProductos p = new jifProductos();
-        p.setVisible(true);
-        jdpEscritorio.add(p);
-        p.toFront();
+        jifVistaAlumnos a = new jifVistaAlumnos();
+        a.setVisible(true);
+        jdpEscritorio.add(a);
+        a.toFront();
     }//GEN-LAST:event_jmiGestionAlumnosActionPerformed
 
     private void jmiGestionMateriasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmiGestionMateriasActionPerformed
-        // TODO add your handling code here:
+        jdpEscritorio.removeAll();
+        jdpEscritorio.repaint();
+        jifVistaMaterias m = new jifVistaMaterias();
+        m.setVisible(true);
+        jdpEscritorio.add(m);
+        m.toFront();
     }//GEN-LAST:event_jmiGestionMateriasActionPerformed
 
     /**
