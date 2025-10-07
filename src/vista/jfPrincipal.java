@@ -41,11 +41,11 @@ public class jfPrincipal extends javax.swing.JFrame {
         jdpEscritorio.setLayout(jdpEscritorioLayout);
         jdpEscritorioLayout.setHorizontalGroup(
             jdpEscritorioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addGap(0, 930, Short.MAX_VALUE)
         );
         jdpEscritorioLayout.setVerticalGroup(
             jdpEscritorioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 277, Short.MAX_VALUE)
+            .addGap(0, 604, Short.MAX_VALUE)
         );
 
         jmAlumnos.setText("Alumnos");
@@ -78,11 +78,15 @@ public class jfPrincipal extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jdpEscritorio)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jdpEscritorio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jdpEscritorio)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jdpEscritorio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         pack();
@@ -100,7 +104,7 @@ public class jfPrincipal extends javax.swing.JFrame {
     private void jmiGestionMateriasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmiGestionMateriasActionPerformed
         jdpEscritorio.removeAll();
         jdpEscritorio.repaint();
-        jifVistaMaterias m = new jifVistaMaterias();
+        jifVistaMaterias m = new jifVistaMaterias(materiaData);
         m.setVisible(true);
         jdpEscritorio.add(m);
         m.toFront();
