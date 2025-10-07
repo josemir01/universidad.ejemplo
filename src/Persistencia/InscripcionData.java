@@ -11,8 +11,8 @@ import java.util.List;
 public class InscripcionData {
     
     
-    private AlumnoData idAlumno;
-    private MateriaData idMateria;
+    private AlumnoData ad;
+    private MateriaData am;
     private Connection con = null;
     
     
@@ -20,8 +20,8 @@ public class InscripcionData {
 
     public InscripcionData(Conexion con){
         this.con=con.BuscarConexion();
-        this.idAlumno=new AlumnoData(con);
-        this.idMateria=new MateriaData(con);
+        this.ad=new AlumnoData(con);
+        this.am=new MateriaData(con);
     }
     
    public void inscribirAlumno(Inscripcion inscripto){
@@ -97,12 +97,17 @@ public class InscripcionData {
         int idMateria=rs.getInt("id_materia");
         int nota =rs.getInt("nota");
         
-        Alumno alumno=idAlumno.buscarAlumno(idAlumno);
-        Materia materia=idMateria.buscarMateria(idMateria);
+         Alumno alumno=ad.buscarAlumno(idAlumno);
+         Materia materia=am.buscarMateria(idMateria);
+                 
+        Inscripcion inscripto=new Inscripcion(nota,alumno,materia);
+        inscriptos.add(inscripto);
         
-        Inscripcion inscripto=new Inscripcion();
        }
-       
+        
+         
+         
+         ps.close();
       }catch(SQLException ex){
         ex.printStackTrace();
       }
