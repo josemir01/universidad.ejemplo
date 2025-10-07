@@ -10,8 +10,8 @@ import java.util.List;
 public class MateriaData {
   private Connection con = null;  
 
-    public MateriaData(Connection con) {
-        this.con = con;
+    public MateriaData(Conexion con) {
+        this.con=con.BuscarConexion();
         
     }
    
@@ -60,28 +60,6 @@ public class MateriaData {
             ex.printStackTrace();
         }
     }
-    
-    public List<Materia> listarMaterias() {
-    List<Materia> materias = new ArrayList<>();
-    String sql = "SELECT * FROM materia";
-    try {
-        PreparedStatement ps = con.prepareStatement(sql);
-        ResultSet rs = ps.executeQuery();
-        while (rs.next()) {
-            Materia m = new Materia(
-                    rs.getString("nombre"),
-                    rs.getInt("año"),
-                    rs.getBoolean("estado")
-            );
-            m.setIdMateria(rs.getInt("id_materia"));
-            materias.add(m);
-        }
-        ps.close();
-    } catch (SQLException ex) {
-        ex.printStackTrace();
-    }
-    return materias;
-}
     public Materia buscarMateria(int id) {
         Materia a = null;
         String sql = "SELECT * FROM materia WHERE id_materia=?";

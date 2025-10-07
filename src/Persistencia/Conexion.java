@@ -9,7 +9,6 @@ public class Conexion {
     private String url;
     private String usuario;
     private String password;
-    private Connection con = null;
     
     private static Connection conexion=null;
 
@@ -17,19 +16,7 @@ public class Conexion {
         this.url = url;
         this.usuario = usuario;
         this.password = password;
-        conectar();
     }
-    
-     private void conectar() {
-        try {
-         
-            con = DriverManager.getConnection(url, usuario, password);
-            System.out.println("Conexion exitosa a la db");
-        } catch (SQLException ex) {
-            System.out.println("Error al conectar con la db" + ex.getMessage());
-        }
-    }
-    
     public Connection BuscarConexion(){
         if(conexion==null){
             try{
