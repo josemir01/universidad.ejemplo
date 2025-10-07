@@ -5,6 +5,10 @@
 package vista;
 
 import Persistencia.Conexion;
+import java.awt.Graphics;
+import java.awt.Image;
+import javax.swing.ImageIcon;
+import javax.swing.JDesktopPane;
 
 /**
  *
@@ -17,6 +21,9 @@ public class jfPrincipal extends javax.swing.JFrame {
      */
     public jfPrincipal() {
         initComponents();
+        
+        jdpEscritorio = new DesktopConFondo("/img/ULP_Logo.jpeg");
+        setContentPane(jdpEscritorio);
     }
 
     /**
@@ -36,16 +43,17 @@ public class jfPrincipal extends javax.swing.JFrame {
         jmiGestionMaterias = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setResizable(false);
 
         javax.swing.GroupLayout jdpEscritorioLayout = new javax.swing.GroupLayout(jdpEscritorio);
         jdpEscritorio.setLayout(jdpEscritorioLayout);
         jdpEscritorioLayout.setHorizontalGroup(
             jdpEscritorioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addGap(0, 750, Short.MAX_VALUE)
         );
         jdpEscritorioLayout.setVerticalGroup(
             jdpEscritorioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 277, Short.MAX_VALUE)
+            .addGap(0, 697, Short.MAX_VALUE)
         );
 
         jmAlumnos.setText("Alumnos");
@@ -154,4 +162,23 @@ public class jfPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenuItem jmiGestionAlumnos;
     private javax.swing.JMenuItem jmiGestionMaterias;
     // End of variables declaration//GEN-END:variables
+class DesktopConFondo extends JDesktopPane {
+        private Image imagen;
+        public DesktopConFondo(String rutaImagen) {
+            java.net.URL imgURL = getClass().getResource(rutaImagen);
+        if (imgURL != null) {
+            this.imagen = new ImageIcon(imgURL).getImage();
+        } else {
+            System.err.println("No se encontró la imagen: " + rutaImagen);
+            }
+        }
+        
+        @Override
+        protected void paintComponent(Graphics g) {
+            super.paintComponent(g);
+            if (imagen != null) {
+            g.drawImage(imagen, 0, 0, getWidth(), getHeight(), this);
+            }
+        }
+    }
 }
