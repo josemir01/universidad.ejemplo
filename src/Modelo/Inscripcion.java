@@ -1,11 +1,36 @@
+
 package Modelo;
 
+import Modelo.Alumno;
+import Modelo.Materia;
+
 public class Inscripcion {
-    /*
-    private int idInscripto = -1;
-    private int idAlumno;
-    private int idMateria;
-    private int nota;
-    */
-    // hay q encontrar la forma de pasarle el idAlumno e idMateria como parametro
+   
+ private int idInscripto = -1;
+ private Alumno idAlumno;
+ private Materia idMateria;
+ private int nota;
+
+    public Inscripcion(int nota,Alumno alumno,Materia materia){
+        this.nota = nota;
+        this.idAlumno= alumno;
+        this.idMateria= materia;
+    }
+
+    public int getIdInscripto() {
+        return idInscripto;
+    }
+
+    public void setIdInscripto(int idInscripto) {
+        this.idInscripto = idInscripto;
+    }
+
+    public int getNota() {
+        return nota;
+    }
+
+    public void setNota(int nota) {
+        this.nota = nota;
+    }
+ 
 }
