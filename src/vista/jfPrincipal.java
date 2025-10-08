@@ -4,9 +4,12 @@
  */
 package vista;
 
+import Persistencia.AlumnoData;
+import Modelo.Alumno;
 import Persistencia.Conexion;
 import java.awt.Graphics;
 import java.awt.Image;
+import java.util.TreeSet;
 import javax.swing.ImageIcon;
 import javax.swing.JDesktopPane;
 
@@ -15,15 +18,19 @@ import javax.swing.JDesktopPane;
  * @author Juan
  */
 public class jfPrincipal extends javax.swing.JFrame {
-
-    /**
-     * Creates new form Principal
-     */
+    public static TreeSet<Alumno> listaAlumnos = new TreeSet<>(new ComparatorIdAlumno());
+    Conexion con = new Conexion("jdbc:mariadb://localhost:3306/\"jdbc:mariadb://localhostuniversidadulp", "root", "");
+    AlumnoData ad = new AlumnoData(con);
+    
+    
+    
     public jfPrincipal() {
         initComponents();
         
         jdpEscritorio = new DesktopConFondo("/img/ULP_Logo.jpeg");
         setContentPane(jdpEscritorio);
+        
+        listaAlumnos = ad.obtenerAlumnos();
     }
 
     /**
@@ -150,8 +157,10 @@ public class jfPrincipal extends javax.swing.JFrame {
         });
         
         Conexion conexion = new Conexion(
-                "jdbc:mariadb://localhost:3306/universidadulp","root",""
+                "jdbc:mariadb://localhost:3306/\"jdbc:mariadb://localhostuniversidadulp","root",""
         );
+        
+        System.out.println(listaAlumnos.toString());
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

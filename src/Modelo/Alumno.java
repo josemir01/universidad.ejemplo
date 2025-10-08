@@ -1,7 +1,6 @@
 package Modelo;
 
 import java.time.LocalDate;
-import java.util.HashSet;
 
 public class Alumno {
 private int dni;

@@ -2,8 +2,10 @@ package Persistencia;
 
 import Modelo.Alumno;
 import java.sql.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.TreeSet;
 
 public class AlumnoData {
     private Connection con = null;
@@ -159,4 +161,33 @@ public class AlumnoData {
             ex.printStackTrace();
         }
     }
+    
+    public TreeSet<Alumno> obtenerAlumnos(){
+      TreeSet<Alumno> listaDeAlumnos=new TreeSet<>();
+      String sql="Select * FROM alumno";
+      try{
+       PreparedStatement ps = con.prepareStatement(sql);
+       ResultSet rs = ps.executeQuery();
+       while(rs.next()){
+           int id_alumno=rs.getInt("id_alumno");
+           int dni=rs.getInt("dni");
+           String apellido=rs.getString("apellido");
+           String nombre =rs.getString("nombre");
+           Date fecha =rs.getDate("fecha_nacimiento");
+           boolean estado =rs.getBoolean("estado");
+           
+           Alumno alumno = new Alumno(dni, fecha.toLocalDate(), estado, apellido, nombre);
+           alumno.setId_alumno(id_alumno);
+           listaDeAlumnos.add(alumno);
+       }
+        
+         
+         
+         ps.close();
+      }catch(SQLException ex){
+        ex.printStackTrace();
+      }
+        return listaDeAlumnos;
+      
+  }
 }

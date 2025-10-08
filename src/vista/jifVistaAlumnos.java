@@ -4,14 +4,19 @@
  */
 package vista;
 
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author Juan
  */
 public class jifVistaAlumnos extends javax.swing.JInternalFrame {
     
+    private DefaultTableModel modelo = new DefaultTableModel();
+
     public jifVistaAlumnos() {
         initComponents();
+        armarCabecera();
     }
 
     /**
@@ -34,6 +39,8 @@ public class jifVistaAlumnos extends javax.swing.JInternalFrame {
         jtfApellido = new javax.swing.JTextField();
         jtfDNI = new javax.swing.JTextField();
         jdcFecha = new com.toedter.calendar.JDateChooser();
+        jlEstado = new javax.swing.JLabel();
+        jtfEstado = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
         jtListaAlumnos = new javax.swing.JTable();
         jbNuevo = new javax.swing.JButton();
@@ -43,6 +50,7 @@ public class jifVistaAlumnos extends javax.swing.JInternalFrame {
         jbBaja = new javax.swing.JButton();
         jbMostrarAlumnos = new javax.swing.JButton();
         jSeparator1 = new javax.swing.JSeparator();
+        jbGuardar = new javax.swing.JButton();
 
         jlTitulo.setFont(new java.awt.Font("Nirmala UI", 1, 24)); // NOI18N
         jlTitulo.setText("Gestion de Alumnos");
@@ -57,9 +65,26 @@ public class jifVistaAlumnos extends javax.swing.JInternalFrame {
 
         jlFecha.setText("Fecha de Nacimiento:");
 
+        jtfNombre.setEnabled(false);
         jtfNombre.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jtfNombreActionPerformed(evt);
+            }
+        });
+
+        jtfApellido.setEnabled(false);
+
+        jtfDNI.setEnabled(false);
+
+        jdcFecha.setEnabled(false);
+
+        jlEstado.setText("Estado:");
+
+        jtfEstado.setEditable(false);
+        jtfEstado.setEnabled(false);
+        jtfEstado.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jtfEstadoActionPerformed(evt);
             }
         });
 
@@ -68,19 +93,28 @@ public class jifVistaAlumnos extends javax.swing.JInternalFrame {
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jlFecha)
-                    .addComponent(jlDNI, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jlApellido, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jlNombre, javax.swing.GroupLayout.Alignment.TRAILING))
+                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addComponent(jlEstado)
+                        .addGroup(jPanel2Layout.createSequentialGroup()
+                            .addGap(72, 72, 72)
+                            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(jlDNI, javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addComponent(jlApellido, javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addComponent(jlNombre, javax.swing.GroupLayout.Alignment.TRAILING))))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jlFecha)))
                 .addGap(18, 18, 18)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jdcFecha, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jtfNombre)
-                    .addComponent(jtfApellido)
-                    .addComponent(jtfDNI, javax.swing.GroupLayout.DEFAULT_SIZE, 291, Short.MAX_VALUE))
-                .addContainerGap(21, Short.MAX_VALUE))
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(jtfNombre)
+                        .addComponent(jtfApellido)
+                        .addComponent(jtfDNI, javax.swing.GroupLayout.DEFAULT_SIZE, 291, Short.MAX_VALUE))
+                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addComponent(jtfEstado, javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jdcFecha, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 125, Short.MAX_VALUE)))
+                .addContainerGap(24, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -97,11 +131,15 @@ public class jifVistaAlumnos extends javax.swing.JInternalFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jtfDNI, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jlDNI))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 20, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jdcFecha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jlFecha))
-                .addGap(21, 21, 21))
+                .addGap(15, 15, 15)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jlEstado)
+                    .addComponent(jtfEstado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jtListaAlumnos.setModel(new javax.swing.table.DefaultTableModel(
@@ -118,14 +156,23 @@ public class jifVistaAlumnos extends javax.swing.JInternalFrame {
         jScrollPane1.setViewportView(jtListaAlumnos);
 
         jbNuevo.setText("Nuevo");
+        jbNuevo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbNuevoActionPerformed(evt);
+            }
+        });
 
         jbActualizar.setText("Actualizar");
+        jbActualizar.setEnabled(false);
 
         jbBorrar.setText("Borrar");
+        jbBorrar.setEnabled(false);
 
         jbAlta.setText("Alta");
+        jbAlta.setEnabled(false);
 
         jbBaja.setText("Baja");
+        jbBaja.setEnabled(false);
 
         jbMostrarAlumnos.setText("Mostrar Alumnos");
         jbMostrarAlumnos.addActionListener(new java.awt.event.ActionListener() {
@@ -134,6 +181,9 @@ public class jifVistaAlumnos extends javax.swing.JInternalFrame {
             }
         });
 
+        jbGuardar.setText("Guardar");
+        jbGuardar.setEnabled(false);
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -141,27 +191,30 @@ public class jifVistaAlumnos extends javax.swing.JInternalFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(28, 28, 28)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 33, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 30, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jbActualizar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jbNuevo, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jbBorrar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jbAlta, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jbBaja, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jbBaja, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jbGuardar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(40, 40, 40))
-            .addComponent(jSeparator1)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jSeparator1)
+                .addContainerGap())
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(jPanel1Layout.createSequentialGroup()
-                            .addGap(33, 33, 33)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 568, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(jPanel1Layout.createSequentialGroup()
-                            .addGap(257, 257, 257)
-                            .addComponent(jbMostrarAlumnos)))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(201, 201, 201)
-                        .addComponent(jlTitulo)))
+                        .addComponent(jlTitulo))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(30, 30, 30)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 568, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(252, 252, 252)
+                        .addComponent(jbMostrarAlumnos)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -173,22 +226,24 @@ public class jifVistaAlumnos extends javax.swing.JInternalFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jbNuevo)
-                        .addGap(18, 18, 18)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jbActualizar)
-                        .addGap(18, 18, 18)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jbBorrar)
-                        .addGap(18, 18, 18)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jbAlta)
-                        .addGap(17, 17, 17)
-                        .addComponent(jbBaja))
-                    .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jbBaja)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 23, Short.MAX_VALUE)
+                        .addComponent(jbGuardar))
+                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jbMostrarAlumnos)
-                .addContainerGap(17, Short.MAX_VALUE))
+                .addGap(23, 23, 23))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -204,7 +259,23 @@ public class jifVistaAlumnos extends javax.swing.JInternalFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+    
+    /*private void cargarTabla() {
+        modelo.setRowCount(0);
 
+        // Accedes al TreeSet usando el nombre de la clase principal
+        for (Alumno a : listaAlumnos) {
+            Object[] fila = {
+                prod.getCodigo(),
+                prod.getDescripcion(),
+                prod.getPrecio(),
+                prod.getRubro(),
+                prod.getStock()
+            };
+            modelo.addRow(fila);
+        }
+    }*/
+    
     private void jtfNombreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtfNombreActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jtfNombreActionPerformed
@@ -212,6 +283,27 @@ public class jifVistaAlumnos extends javax.swing.JInternalFrame {
     private void jbMostrarAlumnosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbMostrarAlumnosActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jbMostrarAlumnosActionPerformed
+
+    private void jtfEstadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtfEstadoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jtfEstadoActionPerformed
+
+    private void jbNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbNuevoActionPerformed
+        jtfNombre.setText("");
+        jtfApellido.setText("");
+        jtfDNI.setText("");
+        jtfEstado.setText("Baja");
+
+        jtfNombre.setEnabled(true);
+        jtfApellido.setEnabled(true);
+        jtfDNI.setEnabled(true);
+        jdcFecha.setEnabled(true);
+
+        jbNuevo.setEnabled(false);
+        jbAlta.setEnabled(true);
+        jbBaja.setEnabled(true);
+        jbGuardar.setEnabled(true);
+    }//GEN-LAST:event_jbNuevoActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -223,17 +315,29 @@ public class jifVistaAlumnos extends javax.swing.JInternalFrame {
     private javax.swing.JButton jbAlta;
     private javax.swing.JButton jbBaja;
     private javax.swing.JButton jbBorrar;
+    private javax.swing.JButton jbGuardar;
     private javax.swing.JButton jbMostrarAlumnos;
     private javax.swing.JButton jbNuevo;
     private com.toedter.calendar.JDateChooser jdcFecha;
     private javax.swing.JLabel jlApellido;
     private javax.swing.JLabel jlDNI;
+    private javax.swing.JLabel jlEstado;
     private javax.swing.JLabel jlFecha;
     private javax.swing.JLabel jlNombre;
     private javax.swing.JLabel jlTitulo;
     private javax.swing.JTable jtListaAlumnos;
     private javax.swing.JTextField jtfApellido;
     private javax.swing.JTextField jtfDNI;
+    private javax.swing.JTextField jtfEstado;
     private javax.swing.JTextField jtfNombre;
     // End of variables declaration//GEN-END:variables
+    private void armarCabecera() {
+        modelo.addColumn("Nombre");
+        modelo.addColumn("Apellido");
+        modelo.addColumn("DNI");
+        modelo.addColumn("Fecha de Nacimiento");
+        modelo.addColumn("Estado");
+
+        jtListaAlumnos.setModel(modelo);
+    }
 }
