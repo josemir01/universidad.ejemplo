@@ -162,8 +162,8 @@ public class AlumnoData {
         }
     }
     
-    public TreeSet<Alumno> obtenerAlumnos(){
-      TreeSet<Alumno> listaDeAlumnos=new TreeSet<>();
+    public ArrayList<Alumno> obtenerAlumnos(){
+      ArrayList<Alumno> listaDeAlumnos=new ArrayList<>();
       String sql="Select * FROM alumno";
       try{
        PreparedStatement ps = con.prepareStatement(sql);

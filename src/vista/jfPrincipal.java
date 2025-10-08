@@ -9,7 +9,8 @@ import Modelo.Alumno;
 import Persistencia.Conexion;
 import java.awt.Graphics;
 import java.awt.Image;
-import java.util.TreeSet;
+import java.util.ArrayList;
+import java.util.List;
 import javax.swing.ImageIcon;
 import javax.swing.JDesktopPane;
 
@@ -18,9 +19,8 @@ import javax.swing.JDesktopPane;
  * @author Juan
  */
 public class jfPrincipal extends javax.swing.JFrame {
-    public static TreeSet<Alumno> listaAlumnos = new TreeSet<>(new ComparatorIdAlumno());
-    Conexion con = new Conexion("jdbc:mariadb://localhost:3306/\"jdbc:mariadb://localhostuniversidadulp", "root", "");
-    AlumnoData ad = new AlumnoData(con);
+    public static ArrayList<Alumno> listaAlumnos = new ArrayList<>();
+    
     
     
     
@@ -29,8 +29,18 @@ public class jfPrincipal extends javax.swing.JFrame {
         
         jdpEscritorio = new DesktopConFondo("/img/ULP_Logo.jpeg");
         setContentPane(jdpEscritorio);
+        Conexion conexion = new Conexion(
+                "jdbc:mariadb://localhost:3306/universidadulp","root",""
+        );
+        AlumnoData ad = new AlumnoData(conexion);
         
-        listaAlumnos = ad.obtenerAlumnos();
+        ArrayList<Alumno> aux = ad.obtenerAlumnos();
+        for (int i=0; i<aux.size();i++){
+            System.out.println(aux.get(i));
+        }
+        
+        
+        
     }
 
     /**
@@ -156,9 +166,6 @@ public class jfPrincipal extends javax.swing.JFrame {
             }
         });
         
-        Conexion conexion = new Conexion(
-                "jdbc:mariadb://localhost:3306/\"jdbc:mariadb://localhostuniversidadulp","root",""
-        );
         
         System.out.println(listaAlumnos.toString());
     }
