@@ -24,13 +24,14 @@ public class InscripcionData {
         this.am=new MateriaData(con);
     }
     
-   public void inscribirAlumno(Inscripcion inscripto){
-       String query="INSERT INTO Inscripcion(nota) Values(?,?,?,?)";
+   public void inscribirAlumno(Inscripcion inscripto,Alumno alumno,Materia materia){
+       String query="INSERT INTO Inscripcion(id_alumno,id_materia,nota) Values(?,?,?)";
        
        try{
           PreparedStatement ps = con.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
-          ps.setInt(1,inscripto.getNota());
-          
+          ps.setInt(1,alumno.getId_alumno());
+          ps.setInt(2,materia.getIdMateria());
+          ps.setInt(3,inscripto.getNota());
           
           ps.executeUpdate();
           
@@ -49,7 +50,7 @@ public class InscripcionData {
    }
    
    public void BorrarInscripcion(int id){
-       String sql = "DELETE * FROM inscripcion WHERE id_inscripto=?";
+       String sql = "DELETE  FROM inscripcion WHERE id_inscripto=?";
        try{
            
             PreparedStatement ps = con.prepareStatement(sql);
@@ -111,7 +112,7 @@ public class InscripcionData {
       }catch(SQLException ex){
         ex.printStackTrace();
       }
-        return null;
+        return inscriptos;
       
   }
 }

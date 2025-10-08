@@ -17,6 +17,22 @@ public class Inscripcion {
         this.idMateria= materia;
     }
 
+    public Alumno getIdAlumno() {
+        return idAlumno;
+    }
+
+    public void setIdAlumno(Alumno idAlumno) {
+        this.idAlumno = idAlumno;
+    }
+
+    public Materia getIdMateria() {
+        return idMateria;
+    }
+
+    public void setIdMateria(Materia idMateria) {
+        this.idMateria = idMateria;
+    }
+
     public int getIdInscripto() {
         return idInscripto;
     }
