@@ -7,7 +7,7 @@ public class Alumno {
 private int dni;
 private int id_alumno=-1;
 private LocalDate fecha;
-private boolean estado;
+private boolean estado = false;
 private String apellido;
 private String nombre;
 
