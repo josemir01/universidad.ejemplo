@@ -92,13 +92,15 @@ public class AlumnoData {
         return a;
     }
 
-    public void actualizarAlumno(int id, String nuevoApellido, String nuevoNombre) {
-        String sql = "UPDATE alumno SET apellido=?, nombre=? WHERE id_alumno=?";
+    public void actualizarAlumno(int id, String nuevoApellido, String nuevoNombre, int nuevoDNI, Date nuevaFecha) {
+        String sql = "UPDATE alumno SET apellido=?, nombre=?, dni=?, fecha_nacimiento=? WHERE id_alumno=?";
         try {
             PreparedStatement ps = con.prepareStatement(sql);
             ps.setString(1, nuevoApellido);
             ps.setString(2, nuevoNombre);
-            ps.setInt(3, id);
+            ps.setInt(3, nuevoDNI);
+            ps.setDate(4, nuevaFecha);
+            ps.setInt(5, id);
             int filas = ps.executeUpdate();
             if (filas > 0) {
                 System.out.println("Alumno actualizado correctamente");
@@ -180,14 +182,11 @@ public class AlumnoData {
            alumno.setId_alumno(id_alumno);
            listaDeAlumnos.add(alumno);
        }
-        
-         
-         
-         ps.close();
-      }catch(SQLException ex){
-        ex.printStackTrace();
-      }
-        return listaDeAlumnos;
-      
-  }
+               
+        ps.close();
+        }catch(SQLException ex){
+            ex.printStackTrace();
+        }
+      return listaDeAlumnos;
+    }
 }

@@ -38,9 +38,6 @@ public class jfPrincipal extends javax.swing.JFrame {
         for (int i=0; i<aux.size();i++){
             System.out.println(aux.get(i));
         }
-        
-        
-        
     }
 
     /**

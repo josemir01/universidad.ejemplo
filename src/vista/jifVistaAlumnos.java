@@ -4,13 +4,20 @@
  */
 package vista;
 
+import Modelo.Alumno;
+import Persistencia.AlumnoData;
+import Persistencia.Conexion;
+import java.util.ArrayList;
 import javax.swing.table.DefaultTableModel;
+import static vista.jfPrincipal.listaAlumnos;
 
 /**
  *
  * @author Juan
  */
 public class jifVistaAlumnos extends javax.swing.JInternalFrame {
+    Conexion conexion = new Conexion("jdbc:mariadb://localhost:3306/universidadulp","root","");
+    AlumnoData ad = new AlumnoData(conexion);
     
     private DefaultTableModel modelo = new DefaultTableModel();
 
@@ -260,28 +267,29 @@ public class jifVistaAlumnos extends javax.swing.JInternalFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
     
-    /*private void cargarTabla() {
+    private void cargarTabla() {
+        ArrayList<Alumno> listaAlumno = ad.obtenerAlumnos();
+        
         modelo.setRowCount(0);
 
-        // Accedes al TreeSet usando el nombre de la clase principal
         for (Alumno a : listaAlumnos) {
             Object[] fila = {
-                prod.getCodigo(),
-                prod.getDescripcion(),
-                prod.getPrecio(),
-                prod.getRubro(),
-                prod.getStock()
+                a.getId_alumno(),
+                a.getDni(),
+                a.getNombre(),
+                a.getApellido(),
+                a.getFecha()
             };
             modelo.addRow(fila);
         }
-    }*/
+    }
     
     private void jtfNombreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtfNombreActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jtfNombreActionPerformed
 
     private void jbMostrarAlumnosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbMostrarAlumnosActionPerformed
-        // TODO add your handling code here:
+        cargarTabla();
     }//GEN-LAST:event_jbMostrarAlumnosActionPerformed
 
     private void jtfEstadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtfEstadoActionPerformed
