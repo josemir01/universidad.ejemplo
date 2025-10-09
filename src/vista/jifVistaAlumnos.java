@@ -46,7 +46,6 @@ public class jifVistaAlumnos extends javax.swing.JInternalFrame {
         jtfNombre = new javax.swing.JTextField();
         jtfApellido = new javax.swing.JTextField();
         jtfDNI = new javax.swing.JTextField();
-        jdcFecha = new com.toedter.calendar.JDateChooser();
         jlEstado = new javax.swing.JLabel();
         jtfEstado = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -84,8 +83,6 @@ public class jifVistaAlumnos extends javax.swing.JInternalFrame {
 
         jtfDNI.setEnabled(false);
 
-        jdcFecha.setEnabled(false);
-
         jlEstado.setText("Estado:");
 
         jtfEstado.setEditable(false);
@@ -102,14 +99,13 @@ public class jifVistaAlumnos extends javax.swing.JInternalFrame {
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addComponent(jlEstado)
-                        .addGroup(jPanel2Layout.createSequentialGroup()
-                            .addGap(72, 72, 72)
-                            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(jlDNI, javax.swing.GroupLayout.Alignment.TRAILING)
-                                .addComponent(jlApellido, javax.swing.GroupLayout.Alignment.TRAILING)
-                                .addComponent(jlNombre, javax.swing.GroupLayout.Alignment.TRAILING))))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(72, 72, 72)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jlEstado)
+                            .addComponent(jlDNI)
+                            .addComponent(jlApellido)
+                            .addComponent(jlNombre)))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(jlFecha)))
@@ -119,9 +115,7 @@ public class jifVistaAlumnos extends javax.swing.JInternalFrame {
                         .addComponent(jtfNombre)
                         .addComponent(jtfApellido)
                         .addComponent(jtfDNI, javax.swing.GroupLayout.DEFAULT_SIZE, 291, Short.MAX_VALUE))
-                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addComponent(jtfEstado, javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jdcFecha, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 125, Short.MAX_VALUE)))
+                    .addComponent(jtfEstado, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(24, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
@@ -140,14 +134,12 @@ public class jifVistaAlumnos extends javax.swing.JInternalFrame {
                     .addComponent(jtfDNI, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jlDNI))
                 .addGap(18, 18, 18)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jdcFecha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jlFecha))
-                .addGap(15, 15, 15)
+                .addComponent(jlFecha)
+                .addGap(17, 17, 17)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jlEstado)
                     .addComponent(jtfEstado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(10, Short.MAX_VALUE))
         );
 
         jtListaAlumnos.setModel(new javax.swing.table.DefaultTableModel(
@@ -337,7 +329,6 @@ public class jifVistaAlumnos extends javax.swing.JInternalFrame {
     private javax.swing.JButton jbGuardar;
     private javax.swing.JButton jbMostrarAlumnos;
     private javax.swing.JButton jbNuevo;
-    private com.toedter.calendar.JDateChooser jdcFecha;
     private javax.swing.JLabel jlApellido;
     private javax.swing.JLabel jlDNI;
     private javax.swing.JLabel jlEstado;

@@ -60,6 +60,29 @@ public class MateriaData {
             ex.printStackTrace();
         }
     }
+    
+    public List<Materia> obtenerTodas() {
+    List<Materia> materias = new ArrayList<>();
+    String sql = "SELECT * FROM materia";
+    try {
+        PreparedStatement ps = con.prepareStatement(sql);
+        ResultSet rs = ps.executeQuery();
+        while (rs.next()) {
+            Materia m = new Materia(
+                    rs.getString("nombre"),
+                    rs.getInt("año"),
+                    rs.getBoolean("estado")
+            );
+            m.setIdMateria(rs.getInt("id_materia"));
+            materias.add(m);
+        }
+        ps.close();
+    } catch (SQLException ex) {
+        ex.printStackTrace();
+    }
+    return materias;
+}
+    
     public Materia buscarMateria(int id) {
         Materia a = null;
         String sql = "SELECT * FROM materia WHERE id_materia=?";
