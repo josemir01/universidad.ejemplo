@@ -272,13 +272,13 @@ public class jifVistaAlumnos extends javax.swing.JInternalFrame {
         
         modelo.setRowCount(0);
 
-        for (Alumno a : listaAlumnos) {
+        for (Alumno a : listaAlumno) {
             Object[] fila = {
-                a.getId_alumno(),
-                a.getDni(),
                 a.getNombre(),
                 a.getApellido(),
-                a.getFecha()
+                a.getDni(),
+                a.getFecha(),
+                a.isEstado()
             };
             modelo.addRow(fila);
         }
