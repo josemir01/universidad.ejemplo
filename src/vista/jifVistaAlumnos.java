@@ -18,6 +18,7 @@ import static vista.jfPrincipal.listaAlumnos;
 public class jifVistaAlumnos extends javax.swing.JInternalFrame {
     Conexion conexion = new Conexion("jdbc:mariadb://localhost:3306/universidadulp","root","");
     AlumnoData ad = new AlumnoData(conexion);
+    private boolean tablaVisible = false;
     
     private DefaultTableModel modelo = new DefaultTableModel();
 
@@ -289,7 +290,17 @@ public class jifVistaAlumnos extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jtfNombreActionPerformed
 
     private void jbMostrarAlumnosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbMostrarAlumnosActionPerformed
-        cargarTabla();
+        if (tablaVisible == false) {
+            cargarTabla();
+            tablaVisible = true;
+            jbMostrarAlumnos.setText("Ocultar Alumnos");
+        } else {
+            modelo.setRowCount(0);
+            jbMostrarAlumnos.setText("Mostrar Alumnos");
+            tablaVisible = false;
+        }
+        
+        
     }//GEN-LAST:event_jbMostrarAlumnosActionPerformed
 
     private void jtfEstadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtfEstadoActionPerformed
