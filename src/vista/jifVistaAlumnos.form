@@ -149,7 +149,10 @@
                               <Component id="jtfApellido" alignment="0" max="32767" attributes="0"/>
                               <Component id="jtfDNI" alignment="0" pref="291" max="32767" attributes="0"/>
                           </Group>
-                          <Component id="jtfEstado" alignment="0" min="-2" pref="125" max="-2" attributes="0"/>
+                          <Group type="103" alignment="0" groupAlignment="1" max="-2" attributes="0">
+                              <Component id="jdcFecha" alignment="0" max="32767" attributes="0"/>
+                              <Component id="jtfEstado" alignment="0" pref="125" max="32767" attributes="0"/>
+                          </Group>
                       </Group>
                       <EmptySpace pref="24" max="32767" attributes="0"/>
                   </Group>
@@ -174,8 +177,11 @@
                           <Component id="jlDNI" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Component id="jlFecha" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="17" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="jlFecha" min="-2" max="-2" attributes="0"/>
+                          <Component id="jdcFecha" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace min="-2" pref="11" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="jlEstado" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="jtfEstado" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -237,6 +243,8 @@
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jtfEstadoActionPerformed"/>
               </Events>
+            </Component>
+            <Component class="com.toedter.calendar.JDateChooser" name="jdcFecha">
             </Component>
           </SubComponents>
         </Container>
