@@ -10,7 +10,6 @@ import Persistencia.Conexion;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.util.ArrayList;
-import java.util.List;
 import javax.swing.ImageIcon;
 import javax.swing.JDesktopPane;
 
@@ -113,10 +112,10 @@ public class jfPrincipal extends javax.swing.JFrame {
     private void jmiGestionAlumnosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmiGestionAlumnosActionPerformed
         jdpEscritorio.removeAll();
         jdpEscritorio.repaint();
-        jifVistaAlumnos a = new jifVistaAlumnos();
-        a.setVisible(true);
-        jdpEscritorio.add(a);
-        a.toFront();
+        jifVistaAlumnos va = new jifVistaAlumnos();
+        va.setVisible(true);
+        jdpEscritorio.add(va);
+        va.toFront();
     }//GEN-LAST:event_jmiGestionAlumnosActionPerformed
 
     private void jmiGestionMateriasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmiGestionMateriasActionPerformed

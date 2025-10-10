@@ -1,15 +1,18 @@
+package vista;
+
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JInternalFrame.java to edit this template
  */
-package vista;
 
 import Modelo.Alumno;
 import Persistencia.AlumnoData;
 import Persistencia.Conexion;
+import java.time.ZoneId;
 import java.util.ArrayList;
+import java.util.Date;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
-import static vista.jfPrincipal.listaAlumnos;
 
 /**
  *
@@ -19,8 +22,16 @@ public class jifVistaAlumnos extends javax.swing.JInternalFrame {
     Conexion conexion = new Conexion("jdbc:mariadb://localhost:3306/universidadulp","root","");
     AlumnoData ad = new AlumnoData(conexion);
     private boolean tablaVisible = false;
+    private String estadoOperacion = "Ninguno";
+
     
-    private DefaultTableModel modelo = new DefaultTableModel();
+    private final DefaultTableModel modelo = new DefaultTableModel(){
+        @Override
+        public boolean isCellEditable(int row, int column) {
+            return false;
+        }
+        
+    };
 
     public jifVistaAlumnos() {
         initComponents();
@@ -153,6 +164,11 @@ public class jifVistaAlumnos extends javax.swing.JInternalFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        jtListaAlumnos.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jtListaAlumnosMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(jtListaAlumnos);
 
         jbNuevo.setText("Nuevo");
@@ -164,15 +180,35 @@ public class jifVistaAlumnos extends javax.swing.JInternalFrame {
 
         jbActualizar.setText("Actualizar");
         jbActualizar.setEnabled(false);
+        jbActualizar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbActualizarActionPerformed(evt);
+            }
+        });
 
         jbBorrar.setText("Borrar");
         jbBorrar.setEnabled(false);
+        jbBorrar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbBorrarActionPerformed(evt);
+            }
+        });
 
         jbAlta.setText("Alta");
         jbAlta.setEnabled(false);
+        jbAlta.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbAltaActionPerformed(evt);
+            }
+        });
 
         jbBaja.setText("Baja");
         jbBaja.setEnabled(false);
+        jbBaja.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbBajaActionPerformed(evt);
+            }
+        });
 
         jbMostrarAlumnos.setText("Mostrar Alumnos");
         jbMostrarAlumnos.addActionListener(new java.awt.event.ActionListener() {
@@ -183,6 +219,11 @@ public class jifVistaAlumnos extends javax.swing.JInternalFrame {
 
         jbGuardar.setText("Guardar");
         jbGuardar.setEnabled(false);
+        jbGuardar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbGuardarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -234,7 +275,7 @@ public class jifVistaAlumnos extends javax.swing.JInternalFrame {
                         .addComponent(jbAlta)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jbBaja)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 23, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jbGuardar))
                     .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(18, 18, 18)
@@ -267,6 +308,7 @@ public class jifVistaAlumnos extends javax.swing.JInternalFrame {
 
         for (Alumno a : listaAlumno) {
             Object[] fila = {
+                a.getId_alumno(),
                 a.getNombre(),
                 a.getApellido(),
                 a.getDni(),
@@ -275,6 +317,16 @@ public class jifVistaAlumnos extends javax.swing.JInternalFrame {
             };
             modelo.addRow(fila);
         }
+    }
+    
+    private Alumno buscarAlumnoPorId(int idAlumno) {
+        ArrayList<Alumno> listaAlumno = ad.obtenerAlumnos();
+        for (Alumno a : listaAlumno) {
+            if (a.getId_alumno()== idAlumno) {
+                return a;
+            }
+        }
+        return null;
     }
     
     private void jtfNombreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtfNombreActionPerformed
@@ -287,6 +339,9 @@ public class jifVistaAlumnos extends javax.swing.JInternalFrame {
             tablaVisible = true;
             jbMostrarAlumnos.setText("Ocultar Alumnos");
         } else {
+            jbNuevo.setEnabled(true);
+            jbActualizar.setEnabled(false);
+            jbBorrar.setEnabled(false);
             modelo.setRowCount(0);
             jbMostrarAlumnos.setText("Mostrar Alumnos");
             tablaVisible = false;
@@ -300,6 +355,8 @@ public class jifVistaAlumnos extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jtfEstadoActionPerformed
 
     private void jbNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbNuevoActionPerformed
+        estadoOperacion = "Nuevo";
+
         jtfNombre.setText("");
         jtfApellido.setText("");
         jtfDNI.setText("");
@@ -315,6 +372,106 @@ public class jifVistaAlumnos extends javax.swing.JInternalFrame {
         jbBaja.setEnabled(true);
         jbGuardar.setEnabled(true);
     }//GEN-LAST:event_jbNuevoActionPerformed
+    
+    private void jbActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbActualizarActionPerformed
+        estadoOperacion = "Actualizar";
+        int filaSeleccionada = jtListaAlumnos.getSelectedRow();
+
+        if (filaSeleccionada != -1) {
+            Object valorId = jtListaAlumnos.getValueAt(filaSeleccionada, 0);
+
+            int idAlumno = Integer.parseInt(valorId.toString());
+            Alumno alumnoSeleccionado = buscarAlumnoPorId(idAlumno);
+
+            if (alumnoSeleccionado != null) {
+                jtfNombre.setText(alumnoSeleccionado.getNombre());
+                jtfApellido.setText(alumnoSeleccionado.getApellido());
+                jtfDNI.setText(String.valueOf(alumnoSeleccionado.getDni()));
+                jdcFecha.setDate(Date.from(alumnoSeleccionado.getFecha().atStartOfDay(ZoneId.systemDefault()).toInstant()));
+                jtfEstado.setText(String.valueOf(alumnoSeleccionado.isEstado()));
+                
+                jtfNombre.setEnabled(true);
+                jtfApellido.setEnabled(true);
+                jtfDNI.setEnabled(true);
+                jdcFecha.setEnabled(true);
+
+                jbGuardar.setEnabled(true);
+                jbNuevo.setEnabled(false);
+                jbBorrar.setEnabled(false);
+                jbActualizar.setEnabled(false);
+                jbAlta.setEnabled(true);
+                jbBaja.setEnabled(true);
+            }
+        }
+    }//GEN-LAST:event_jbActualizarActionPerformed
+
+    private void jtListaAlumnosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jtListaAlumnosMouseClicked
+        int filaSeleccionada = jtListaAlumnos.getSelectedRow();
+        if (filaSeleccionada != -1) {
+            jbNuevo.setEnabled(false);
+            jbActualizar.setEnabled(true);
+            jbBorrar.setEnabled(true);
+        }
+    }//GEN-LAST:event_jtListaAlumnosMouseClicked
+
+    private void jbAltaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbAltaActionPerformed
+        if ("false".equals(jtfEstado.getText())) {
+            jtfEstado.setText("true");
+        } else{
+            JOptionPane.showMessageDialog(this, "El Estado ya es true, para cambiarlo a false usar el boton 'Baja'"
+                    , "Error de Logica", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_jbAltaActionPerformed
+
+    private void jbBajaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbBajaActionPerformed
+        if ("true".equals(jtfEstado.getText())) {
+            jtfEstado.setText("false");
+        } else {
+            JOptionPane.showMessageDialog(this, "El Estado ya es false, para cambiarlo a true usar el boton 'Alta'"
+            , "Error de Logica", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_jbBajaActionPerformed
+
+    private void jbBorrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbBorrarActionPerformed
+        jbNuevo.setEnabled(false);
+        jbActualizar.setEnabled(false);
+        
+        int filaSeleccionada = jtListaAlumnos.getSelectedRow();
+
+        if (filaSeleccionada != -1) {            
+            int opcion = JOptionPane.showConfirmDialog(this, "Estas seguro de que queres Borrar los datos del Alumno?",
+                    "Confirmar Borrado", JOptionPane.YES_NO_OPTION);
+            if (opcion == JOptionPane.YES_OPTION) {
+                Object valorId = jtListaAlumnos.getValueAt(filaSeleccionada, 0);
+                int idAlumno = Integer.parseInt(valorId.toString());
+                Alumno alumnoSeleccionado = buscarAlumnoPorId(idAlumno);
+                
+                if (alumnoSeleccionado != null) {
+                    ad.borrarAlumno(WIDTH);
+                    JOptionPane.showMessageDialog(this, "Alumno Borrado con exito.");
+
+                    cargarTabla();
+                    jtfNombre.setText("");
+                    jtfApellido.setText("");
+                    jtfDNI.setText("");
+                    jdcFecha.setDate(null);
+                    jtfEstado.setText("");
+                    jbBorrar.setEnabled(false);
+                    jbNuevo.setEnabled(true);
+                } else {
+                    JOptionPane.showMessageDialog(this, "No se encontro el Alumno.", "Error de Busqueda",
+                            JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        } else{
+            JOptionPane.showMessageDialog(this, "No se Encontro la Fila Seleccionada.", "Error de Busqueda",
+                    JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_jbBorrarActionPerformed
+
+    private void jbGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbGuardarActionPerformed
+        
+    }//GEN-LAST:event_jbGuardarActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -342,6 +499,7 @@ public class jifVistaAlumnos extends javax.swing.JInternalFrame {
     private javax.swing.JTextField jtfNombre;
     // End of variables declaration//GEN-END:variables
     private void armarCabecera() {
+        modelo.addColumn("ID");
         modelo.addColumn("Nombre");
         modelo.addColumn("Apellido");
         modelo.addColumn("DNI");
