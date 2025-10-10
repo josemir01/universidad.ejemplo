@@ -245,6 +245,9 @@
               </Events>
             </Component>
             <Component class="com.toedter.calendar.JDateChooser" name="jdcFecha">
+              <Properties>
+                <Property name="enabled" type="boolean" value="false"/>
+              </Properties>
             </Component>
           </SubComponents>
         </Container>

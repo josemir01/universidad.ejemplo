@@ -23,6 +23,7 @@ public class jifVistaAlumnos extends javax.swing.JInternalFrame {
     AlumnoData ad = new AlumnoData(conexion);
     private boolean tablaVisible = false;
     private String estadoOperacion = "Ninguno";
+    private boolean estadoLogicoCambiado = false;
 
     
     private final DefaultTableModel modelo = new DefaultTableModel(){
@@ -104,6 +105,8 @@ public class jifVistaAlumnos extends javax.swing.JInternalFrame {
                 jtfEstadoActionPerformed(evt);
             }
         });
+
+        jdcFecha.setEnabled(false);
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -365,7 +368,7 @@ public class jifVistaAlumnos extends javax.swing.JInternalFrame {
         jtfNombre.setText("");
         jtfApellido.setText("");
         jtfDNI.setText("");
-        jtfEstado.setText("Baja");
+        jtfEstado.setText("false");
 
         jtfNombre.setEnabled(true);
         jtfApellido.setEnabled(true);
@@ -422,6 +425,7 @@ public class jifVistaAlumnos extends javax.swing.JInternalFrame {
     private void jbAltaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbAltaActionPerformed
         if ("false".equals(jtfEstado.getText())) {
             jtfEstado.setText("true");
+            estadoLogicoCambiado = true;
         } else{
             JOptionPane.showMessageDialog(this, "El Estado ya es true, para cambiarlo a false usar el boton 'Baja'"
                     , "Error de Logica", JOptionPane.ERROR_MESSAGE);
@@ -431,6 +435,7 @@ public class jifVistaAlumnos extends javax.swing.JInternalFrame {
     private void jbBajaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbBajaActionPerformed
         if ("true".equals(jtfEstado.getText())) {
             jtfEstado.setText("false");
+            estadoLogicoCambiado = true;
         } else {
             JOptionPane.showMessageDialog(this, "El Estado ya es false, para cambiarlo a true usar el boton 'Alta'"
             , "Error de Logica", JOptionPane.ERROR_MESSAGE);
@@ -475,7 +480,77 @@ public class jifVistaAlumnos extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jbBorrarActionPerformed
 
     private void jbGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbGuardarActionPerformed
+        String regex = "^[a-zA-ZáéíóúÁÉÍÓÚñÑ\\s]+$";
+        boolean alumnoExiste = false;
         
+        if (jtfNombre.getText().isEmpty() || jtfApellido.getText().isEmpty() || jtfDNI.getText().isEmpty() ||
+                jdcFecha.getDate() == null || jtfEstado.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Todos los campos deben estar completos.", "Error, Campos Vacíos",
+                    JOptionPane.ERROR_MESSAGE);
+        }
+        
+        try {
+            
+            if (!jtfNombre.getText().matches(regex) || !jtfApellido.getText().matches(regex) ||
+                    !jtfEstado.getText().matches(regex)) {
+                    JOptionPane.showMessageDialog(this, "Uno o Muchos campos contienen caracteres incorrectos", 
+                            "Error de Formato", JOptionPane.ERROR_MESSAGE);
+            }
+        } catch(NumberFormatException ex) {
+            JOptionPane.showMessageDialog(this, "El DNI debe contener solo numeros.", "Error de Formato Numerico",
+                    JOptionPane.ERROR_MESSAGE);
+        }
+        
+        ArrayList<Alumno> listaDeAlumnos = ad.obtenerAlumnos();
+        int dniIngresado = Integer.parseInt(jtfDNI.getText());
+        
+        if (estadoOperacion.equalsIgnoreCase("Nuevo")) {
+            
+            for (Alumno alumno : listaDeAlumnos) {
+                if (alumno.getDni() == dniIngresado) {
+                    alumnoExiste = true;
+                    break;
+                } 
+            }
+        
+            if (alumnoExiste) {
+                JOptionPane.showMessageDialog(this, "El alumno ingresado ya se encuentra registrado.",
+                        "Error. Alumno Existente", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+            
+            
+            Alumno nuevoAlumno = new Alumno(Integer.parseInt(jtfDNI.getText()), jdcFecha.getDate().toInstant()
+                    .atZone(ZoneId.systemDefault()).toLocalDate(), Boolean.parseBoolean(jtfEstado.getText()) , jtfApellido.getText(), jtfNombre.getText());
+            ad.insertarAlumno(nuevoAlumno);
+            JOptionPane.showMessageDialog(this, "¡Producto agregado con exito!");
+            
+            if (jbMostrarAlumnos.getText().equalsIgnoreCase("Mostrar Alumnos")) {
+                cargarTabla();
+                jbMostrarAlumnos.setText("Ocultar Alumnos");
+            } else if (jbMostrarAlumnos.getText().equalsIgnoreCase("Ocultar Alumnos")) {
+                cargarTabla();
+            }
+            
+            estadoOperacion = "Ninguno";
+            
+        } else if (estadoOperacion.equalsIgnoreCase("Actualizar")) {
+            
+        }
+        
+        jtfNombre.setText("");
+        jtfApellido.setText("");
+        jtfDNI.setText("");
+        jdcFecha.setDate(null);
+        jtfEstado.setText("");
+        
+        jbGuardar.setEnabled(false);
+        jbNuevo.setEnabled(true);
+        
+        jtfNombre.setEnabled(false);
+        jtfApellido.setEnabled(false);
+        jtfDNI.setEnabled(false);
+        jdcFecha.setEnabled(false);
     }//GEN-LAST:event_jbGuardarActionPerformed
 
 
