@@ -23,6 +23,7 @@ public class jifVistaAlumnos extends javax.swing.JInternalFrame {
     AlumnoData ad = new AlumnoData(conexion);
     private boolean tablaVisible = false;
     private String estadoOperacion = "Ninguno";
+    private int idAlumnoSeleccionado = -1;
     private boolean estadoLogicoCambiado = false;
 
     
@@ -390,13 +391,15 @@ public class jifVistaAlumnos extends javax.swing.JInternalFrame {
             Object valorId = jtListaAlumnos.getValueAt(filaSeleccionada, 0);
 
             int idAlumno = Integer.parseInt(valorId.toString());
+            this.idAlumnoSeleccionado = idAlumno;
             Alumno alumnoSeleccionado = buscarAlumnoPorId(idAlumno);
 
             if (alumnoSeleccionado != null) {
                 jtfNombre.setText(alumnoSeleccionado.getNombre());
                 jtfApellido.setText(alumnoSeleccionado.getApellido());
                 jtfDNI.setText(String.valueOf(alumnoSeleccionado.getDni()));
-                jdcFecha.setDate(Date.from(alumnoSeleccionado.getFecha().atStartOfDay(ZoneId.systemDefault()).toInstant()));
+                jdcFecha.setDate(Date.from(alumnoSeleccionado.getFecha().atStartOfDay(ZoneId.systemDefault())
+                        .toInstant()));
                 jtfEstado.setText(String.valueOf(alumnoSeleccionado.isEstado()));
                 
                 jtfNombre.setEnabled(true);
@@ -522,22 +525,46 @@ public class jifVistaAlumnos extends javax.swing.JInternalFrame {
             
             
             Alumno nuevoAlumno = new Alumno(Integer.parseInt(jtfDNI.getText()), jdcFecha.getDate().toInstant()
-                    .atZone(ZoneId.systemDefault()).toLocalDate(), Boolean.parseBoolean(jtfEstado.getText()) , jtfApellido.getText(), jtfNombre.getText());
+                    .atZone(ZoneId.systemDefault()).toLocalDate(), Boolean.parseBoolean(jtfEstado.getText()) ,
+                    jtfApellido.getText(), jtfNombre.getText());
             ad.insertarAlumno(nuevoAlumno);
             JOptionPane.showMessageDialog(this, "¡Producto agregado con exito!");
             
-            if (jbMostrarAlumnos.getText().equalsIgnoreCase("Mostrar Alumnos")) {
+            estadoOperacion = "Ninguno";
+            
+        } else if (estadoOperacion.equalsIgnoreCase("Actualizar")) {
+            int idAlumnoActualizar = this.idAlumnoSeleccionado;
+            boolean estadoFinal = "true".equals(jtfEstado.getText());
+            Alumno alumnoActualizar = buscarAlumnoPorId(idAlumnoActualizar);
+            
+            if (alumnoActualizar != null) {                
+                ad.actualizarAlumno(idAlumnoActualizar, jtfApellido.getText(), jtfNombre.getText(), 
+                        Integer.parseInt(jtfDNI.getText()), java.sql.Date.valueOf(jdcFecha.getDate().toInstant()
+                                .atZone(ZoneId.systemDefault()).toLocalDate()));
+                
+                if (estadoLogicoCambiado) { 
+                    if (estadoFinal) {
+                        ad.altaLogica(idAlumnoActualizar);
+                    } else {
+                        ad.bajaLogica(idAlumnoActualizar);
+                    }
+                    estadoLogicoCambiado = false; 
+                } else {
+                    JOptionPane.showMessageDialog(this, "Alumno actualizado con Exito!");
+                }
+                this.idAlumnoSeleccionado = -1;
+            } else{
+                JOptionPane.showMessageDialog(this, "No se encontro el Alumno.", "Error de Busqueda", 
+                        JOptionPane.ERROR_MESSAGE);
+            }
+        }
+        
+        if (jbMostrarAlumnos.getText().equalsIgnoreCase("Mostrar Alumnos")) {
                 cargarTabla();
                 jbMostrarAlumnos.setText("Ocultar Alumnos");
             } else if (jbMostrarAlumnos.getText().equalsIgnoreCase("Ocultar Alumnos")) {
                 cargarTabla();
             }
-            
-            estadoOperacion = "Ninguno";
-            
-        } else if (estadoOperacion.equalsIgnoreCase("Actualizar")) {
-            
-        }
         
         jtfNombre.setText("");
         jtfApellido.setText("");
