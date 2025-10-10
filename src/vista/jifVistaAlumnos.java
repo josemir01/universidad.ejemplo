@@ -16,7 +16,9 @@ import javax.swing.table.DefaultTableModel;
 
 /**
  *
- * @author Juan
+ * @author Luca
+ * Este JIFrame lo hice todo yo asique espero q les guste pq me costo un monton.
+ * 
  */
 public class jifVistaAlumnos extends javax.swing.JInternalFrame {
     Conexion conexion = new Conexion("jdbc:mariadb://localhost:3306/universidadulp","root","");
