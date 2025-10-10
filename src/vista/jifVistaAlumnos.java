@@ -378,6 +378,7 @@ public class jifVistaAlumnos extends javax.swing.JInternalFrame {
         jbNuevo.setEnabled(false);
         jbAlta.setEnabled(true);
         jbBaja.setEnabled(true);
+        jbBorrar.setEnabled(true);
         jbGuardar.setEnabled(true);
     }//GEN-LAST:event_jbNuevoActionPerformed
     
@@ -457,7 +458,7 @@ public class jifVistaAlumnos extends javax.swing.JInternalFrame {
                 Alumno alumnoSeleccionado = buscarAlumnoPorId(idAlumno);
                 
                 if (alumnoSeleccionado != null) {
-                    ad.borrarAlumno(WIDTH);
+                    ad.borrarAlumno(alumnoSeleccionado.getId_alumno());
                     JOptionPane.showMessageDialog(this, "Alumno Borrado con exito.");
 
                     cargarTabla();
