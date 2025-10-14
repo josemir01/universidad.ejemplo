@@ -7,6 +7,7 @@ import java.sql.Connection;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.JOptionPane;
 
 public class InscripcionData {
     
@@ -76,9 +77,9 @@ public class InscripcionData {
             ps.setInt(2, id);
             int filas = ps.executeUpdate();
             if (filas > 0) {
-                System.out.println("Nota actualizada correctamente");
+                JOptionPane.showMessageDialog(null, "Nota actualizada correctamente");
             } else {
-                System.out.println("No se encuentra la Nota con ID " + id);
+                JOptionPane.showMessageDialog(null, "No se encuentra la Nota con ID " + id);
             }
             ps.close();
         } catch (SQLException ex) {
@@ -110,7 +111,38 @@ public class InscripcionData {
         ex.printStackTrace();
     }
     return inscriptos;
+  }
+  
+  
+  public ArrayList<Inscripcion> obtenerInscripciones(){
+      ArrayList<Inscripcion> inscriptos=new ArrayList<>();
+      String sql="Select * FROM inscripcion";
+      try{
+       PreparedStatement ps = con.prepareStatement(sql);
+       ResultSet rs = ps.executeQuery();
+       while(rs.next()){
+        int idInscripto=rs.getInt("id_inscripto");
+        int idAlumno=rs.getInt("id_alumno");
+        int idMateria=rs.getInt("id_materia");
+        int nota =rs.getInt("nota");
+        
+         Alumno alumno=ad.buscarAlumno(idAlumno);
+         Materia materia=am.buscarMateria(idMateria);
+                 
+        Inscripcion inscripto=new Inscripcion(nota,alumno,materia);
+        inscripto.setIdInscripto(rs.getInt("id_inscripto"));
+        inscripto.getIdAlumno().setId_alumno(rs.getInt("id_alumno"));
+        inscriptos.add(inscripto);
+        
+       }
+         ps.close();
+      }catch(SQLException ex){
+        ex.printStackTrace();
+    }
+    return inscriptos;
 }
+  
+  
    public List<Materia> obtenerMateriasCursadas(int idAlumno) {
     ArrayList<Materia> materias = new ArrayList<>();
 

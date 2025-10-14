@@ -3,18 +3,49 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JInternalFrame.java to edit this template
  */
 package vista;
+import Modelo.Inscripcion;
+import Persistencia.Conexion;
+import Persistencia.InscripcionData;
+import java.awt.event.ItemEvent;
+import java.util.ArrayList;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
  * @author matute
  */
 public class jifVistaCargaNotas extends javax.swing.JInternalFrame {
+    private String regex2 = "\\d+";
+    private Conexion conexion = new Conexion(
+            "jdbc:mariadb://localhost:3306/universidadulp", "root", ""
+    );
 
+    private InscripcionData insD = new InscripcionData(conexion);
+    private DefaultTableModel modeloTabla = new DefaultTableModel() {
+        @Override
+        public boolean isCellEditable(int row, int column) {
+            return false;
+        }
+    };
+    
     /**
      * Creates new form jifVistaCargaNotas
      */
     public jifVistaCargaNotas() {
         initComponents();
+        cargarAlumnos();
+        columns();
+        rows();
+        
+        jCB1.addItemListener(new java.awt.event.ItemListener() {
+            @Override
+            public void itemStateChanged(ItemEvent e) {
+                if (e.getStateChange() == ItemEvent.SELECTED) {
+                    rows();
+                }
+            }
+        });
     }
 
     /**
@@ -57,23 +88,17 @@ public class jifVistaCargaNotas extends javax.swing.JInternalFrame {
         jLabel2.setText("Alumno:");
 
         jCB1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione un alumno" }));
-        jCB1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jCB1ActionPerformed(evt);
-            }
-        });
-
-        jTF1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTF1ActionPerformed(evt);
-            }
-        });
 
         jLabel3.setFont(new java.awt.Font("Liberation Sans", 1, 13)); // NOI18N
         jLabel3.setText("Nueva nota:");
 
         jB1.setFont(new java.awt.Font("Liberation Sans", 1, 13)); // NOI18N
         jB1.setText("Guardar");
+        jB1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jB1ActionPerformed(evt);
+            }
+        });
 
         jDesktopPane1.setLayer(jLabel1, javax.swing.JLayeredPane.DEFAULT_LAYER);
         jDesktopPane1.setLayer(jScrollPane1, javax.swing.JLayeredPane.DEFAULT_LAYER);
@@ -160,15 +185,81 @@ public class jifVistaCargaNotas extends javax.swing.JInternalFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jCB1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCB1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jCB1ActionPerformed
+    private void jB1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jB1ActionPerformed
+        int filaSeleccionada = jT1.getSelectedRow();
+        if (jCB1.getSelectedItem().toString().equals("Seleccione un alumno")) {
+            JOptionPane.showMessageDialog(this, "Seleccione un alumno primero.");
+            return;
+        }
+        if (filaSeleccionada != -1) {
+            int columnaIdIns = 0;
+            Integer idInscripto;
+            int nuevaNota = 0;
+            if (!jTF1.getText().matches(regex2) || jTF1.getText().isBlank()) {
+                JOptionPane.showMessageDialog(this, "Ingrese una nota valida.");
+                return;
+            } else {
+                idInscripto = (Integer) modeloTabla.getValueAt(filaSeleccionada, columnaIdIns);
+                try {
+                    nuevaNota = Integer.parseInt(jTF1.getText());
+                    insD.ActualizarNota(idInscripto, nuevaNota);
+                } catch (NumberFormatException e) {
+                    e.getMessage();
+                }
+            }
+        } else {
+            JOptionPane.showMessageDialog(this, "Seleccione una materia de la tabla antes de continuar.");
+            return;
+        }
+        rows();
+    }//GEN-LAST:event_jB1ActionPerformed
 
-    private void jTF1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTF1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTF1ActionPerformed
+    public void cargarAlumnos() {
+        ArrayList<Inscripcion> inscriptos = insD.obtenerInscripciones();
+        ArrayList<String> alumnos = new ArrayList<>(); 
+        for (int i = 0; i < inscriptos.size(); i++) {
+            String idAlumnoActual = inscriptos.get(i).getIdAlumno().toString();
+            if (!alumnos.contains(idAlumnoActual)) {
+            jCB1.addItem(inscriptos.get(i).getIdAlumno().toString());
+            alumnos.add(idAlumnoActual);
+            }   
+        }
+    }
+    
+    public void columns() {
+        modeloTabla.addColumn("ID inscripto");
+        modeloTabla.addColumn("ID alumno");
+        modeloTabla.addColumn("Materia");
+        modeloTabla.addColumn("Nota");
+        jT1.setModel(modeloTabla);
+    }
+    
+    public void rows() {
+        modeloTabla.setRowCount(0);
+        if (jCB1.getSelectedItem() == null) {
+            return;
+        }
+        ArrayList<Inscripcion> listaInscriptos = insD.obtenerInscripciones();
+        
+        String idAlumnoSeleccionado = jCB1.getSelectedItem().toString();
+        if (listaInscriptos != null) {
 
-
+            for (Inscripcion ins : listaInscriptos) {
+                String idAlumnoEnLista = String.valueOf(ins.getIdAlumno());
+                if (idAlumnoEnLista.equals(idAlumnoSeleccionado)) {
+                    Object[] filas = {
+                        ins.getIdInscripto(),
+                        ins.getIdAlumno().getId_alumno(),
+                        ins.getIdMateria().toString(),
+                        ins.getNota()
+                    };
+                    modeloTabla.addRow(filas);
+                }
+            }
+        }
+    }
+    
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jB1;
     private javax.swing.JComboBox<String> jCB1;

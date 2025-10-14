@@ -70,7 +70,4 @@ private String nombre;
     public String toString() {
         return "Alumno{" + "apellido=" + apellido + ", nombre=" + nombre + '}';
     }
-
-    
-    
 }
