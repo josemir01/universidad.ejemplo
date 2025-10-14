@@ -54,6 +54,10 @@ public class jfPrincipal extends javax.swing.JFrame {
         jmiGestionAlumnos = new javax.swing.JMenuItem();
         jmMaterias = new javax.swing.JMenu();
         jmiGestionMaterias = new javax.swing.JMenuItem();
+        jmInscripciones = new javax.swing.JMenu();
+        jmiInscripcion = new javax.swing.JMenuItem();
+        jmiListarInscripcion = new javax.swing.JMenuItem();
+        jmiCargarNotas = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
@@ -93,6 +97,34 @@ public class jfPrincipal extends javax.swing.JFrame {
 
         jmbBarraMenu.add(jmMaterias);
 
+        jmInscripciones.setText("Inscripciones");
+
+        jmiInscripcion.setText("Inscripcion");
+        jmiInscripcion.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jmiInscripcionActionPerformed(evt);
+            }
+        });
+        jmInscripciones.add(jmiInscripcion);
+
+        jmiListarInscripcion.setText("Listar Inscripciones");
+        jmiListarInscripcion.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jmiListarInscripcionActionPerformed(evt);
+            }
+        });
+        jmInscripciones.add(jmiListarInscripcion);
+
+        jmiCargarNotas.setText("Cargar Notas");
+        jmiCargarNotas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jmiCargarNotasActionPerformed(evt);
+            }
+        });
+        jmInscripciones.add(jmiCargarNotas);
+
+        jmbBarraMenu.add(jmInscripciones);
+
         setJMenuBar(jmbBarraMenu);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -126,6 +158,33 @@ public class jfPrincipal extends javax.swing.JFrame {
         jdpEscritorio.add(m);
         m.toFront();
     }//GEN-LAST:event_jmiGestionMateriasActionPerformed
+
+    private void jmiInscripcionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmiInscripcionActionPerformed
+        jdpEscritorio.removeAll();
+        jdpEscritorio.repaint();
+        jifVistaInscripcion i = new jifVistaInscripcion();
+        i.setVisible(true);
+        jdpEscritorio.add(i);
+        i.toFront();
+    }//GEN-LAST:event_jmiInscripcionActionPerformed
+
+    private void jmiListarInscripcionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmiListarInscripcionActionPerformed
+        jdpEscritorio.removeAll();
+        jdpEscritorio.repaint();
+        jifVistaListarInscripciones l = new jifVistaListarInscripciones();
+        l.setVisible(true);
+        jdpEscritorio.add(l);
+        l.toFront();
+    }//GEN-LAST:event_jmiListarInscripcionActionPerformed
+
+    private void jmiCargarNotasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmiCargarNotasActionPerformed
+        jdpEscritorio.removeAll();
+        jdpEscritorio.repaint();
+        jifVistaCargaNotas c = new jifVistaCargaNotas();
+        c.setVisible(true);
+        jdpEscritorio.add(c);
+        c.toFront();
+    }//GEN-LAST:event_jmiCargarNotasActionPerformed
 
     /**
      * @param args the command line arguments
@@ -169,10 +228,14 @@ public class jfPrincipal extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JDesktopPane jdpEscritorio;
     private javax.swing.JMenu jmAlumnos;
+    private javax.swing.JMenu jmInscripciones;
     private javax.swing.JMenu jmMaterias;
     private javax.swing.JMenuBar jmbBarraMenu;
+    private javax.swing.JMenuItem jmiCargarNotas;
     private javax.swing.JMenuItem jmiGestionAlumnos;
     private javax.swing.JMenuItem jmiGestionMaterias;
+    private javax.swing.JMenuItem jmiInscripcion;
+    private javax.swing.JMenuItem jmiListarInscripcion;
     // End of variables declaration//GEN-END:variables
 class DesktopConFondo extends JDesktopPane {
         private Image imagen;
