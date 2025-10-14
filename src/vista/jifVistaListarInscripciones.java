@@ -4,17 +4,70 @@
  */
 package vista;
 
-/**
- *
- * @author matute
- */
+import Modelo.Alumno;
+import Modelo.Inscripcion;
+import Modelo.Materia;
+import Persistencia.AlumnoData;
+import Persistencia.InscripcionData;
+import Persistencia.Conexion;
+import java.util.List;
+import javax.swing.table.DefaultTableModel;
+
 public class jifVistaListarInscripciones extends javax.swing.JInternalFrame {
 
-    /**
-     * Creates new form jifVistaListarInscripciones
-     */
+    private Conexion conexion;
+    private AlumnoData alumnoData;
+    private InscripcionData inscripcionData;
+    private DefaultTableModel modeloTabla;
+    
     public jifVistaListarInscripciones() {
         initComponents();
+        conexion = new Conexion("jdbc:mariadb://localhost:3306/universidad", "root", "");
+        alumnoData = new AlumnoData(conexion);
+        inscripcionData = new InscripcionData(conexion);
+        
+        modeloTabla = new DefaultTableModel();
+        armarCabecera();
+        cargarComboAlumnos();
+        
+        comboAlumno.addActionListener(e -> cargarTabla());
+    }
+    
+    private void armarCabecera(){
+        modeloTabla.addColumn("Materia");
+        modeloTabla.addColumn("Ciclo Lectivo");
+        modeloTabla.addColumn("Nota");
+        tablaInscripciones.setModel(modeloTabla);
+    }
+    
+    private void cargarComboAlumnos(){
+        comboAlumno.removeAllItems();
+        comboAlumno.addItem("Seleccione un alumno");
+        for (Alumno a : alumnoData.obtenerAlumnos()){
+            if (a.isEstado()){
+                comboAlumno.addItem(a.getId_alumno() + " - " + a.getApellido() + ", " + a.getNombre());
+            }
+        }
+    }
+    
+    private void cargarTabla(){
+        modeloTabla.setRowCount(0);
+        int index = comboAlumno.getSelectedIndex();
+        if (index <= 0) return;
+        
+        String seleccionado = (String) comboAlumno.getSelectedItem();
+        int idAlumno = Integer.parseInt(seleccionado.split(" - ") [0]);
+        
+        List<Inscripcion> inscripciones = inscripcionData.obtenerInscripciones();
+        
+        for (Inscripcion ins : inscripciones){
+            Materia m = ins.getIdMateria();
+            modeloTabla.addRow(new Object[]{
+            m.getNombre(),
+            m.getAnio(),
+            ins.getNota()
+            });
+        }
     }
 
     /**
@@ -28,16 +81,16 @@ public class jifVistaListarInscripciones extends javax.swing.JInternalFrame {
 
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox<>();
+        comboAlumno = new javax.swing.JComboBox<>();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tablaInscripciones = new javax.swing.JTable();
 
         jLabel1.setFont(new java.awt.Font("Nirmala UI", 1, 18)); // NOI18N
         jLabel1.setText("Listar Inscripciones");
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "---- Seleccione un Alumno ----" }));
+        comboAlumno.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "---- Seleccione un Alumno ----" }));
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tablaInscripciones.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -48,7 +101,7 @@ public class jifVistaListarInscripciones extends javax.swing.JInternalFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(tablaInscripciones);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -61,7 +114,7 @@ public class jifVistaListarInscripciones extends javax.swing.JInternalFrame {
                         .addComponent(jLabel1))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(210, 210, 210)
-                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(comboAlumno, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(75, 75, 75)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -73,7 +126,7 @@ public class jifVistaListarInscripciones extends javax.swing.JInternalFrame {
                 .addGap(22, 22, 22)
                 .addComponent(jLabel1)
                 .addGap(18, 18, 18)
-                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(comboAlumno, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(49, 49, 49)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 279, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(59, Short.MAX_VALUE))
@@ -95,10 +148,10 @@ public class jifVistaListarInscripciones extends javax.swing.JInternalFrame {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JComboBox<String> jComboBox1;
+    private javax.swing.JComboBox<String> comboAlumno;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JTable tablaInscripciones;
     // End of variables declaration//GEN-END:variables
 }
