@@ -24,14 +24,13 @@ public class InscripcionData {
         this.am=new MateriaData(con);
     }
     
-   public void inscribirAlumno(Inscripcion inscripto,Alumno alumno,Materia materia){
-       String query="INSERT INTO Inscripcion(id_alumno,id_materia,nota) Values(?,?,?)";
+   public void inscribirAlumno(Inscripcion inscripto){
+       String query="INSERT INTO Inscripcion(id_inscricion) Values(?)";
        
        try{
           PreparedStatement ps = con.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
-          ps.setInt(1,alumno.getId_alumno());
-          ps.setInt(2,materia.getIdMateria());
-          ps.setInt(3,inscripto.getNota());
+     
+          ps.setInt(1,inscripto.getNota());
           
           ps.executeUpdate();
           
@@ -49,17 +48,18 @@ public class InscripcionData {
        }
    }
    
-   public void BorrarInscripcion(int id){
-       String sql = "DELETE  FROM inscripcion WHERE id_inscripto=?";
+    public void BorrarInscripcion(int idAlumno,int idMateria){
+       String sql = "DELETE  FROM inscripcion WHERE  id_alumno=? AND id_materia=?";
        try{
            
             PreparedStatement ps = con.prepareStatement(sql);
-            ps.setInt(1, id);
+            ps.setInt(1, idAlumno);
+            ps.setInt(2,idMateria);
             int filas = ps.executeUpdate();
             if (filas > 0) {
                 System.out.println("inscripcion borrada de la DB");
             } else {
-                System.out.println("No se encuentra la inscripcion con ID " + id);
+                System.out.println("No se encuentra la inscripcion con ID de Alumno " + idAlumno+ " Materia"+" "+idMateria );
             }
             ps.close();   
            
@@ -115,4 +115,34 @@ public class InscripcionData {
         return inscriptos;
       
   }
+   public List<Materia> obtenerMateriasCursadas(int idAlumno) {
+    ArrayList<Materia> materias = new ArrayList<>();
+
+    String sql = " SELECT inscripcion.id_materia, nombre, año "
+               + " FROM inscripcion, materia "
+               + " WHERE inscripcion.id_materia = materia.id_materia "
+               + " AND inscripcion.id_alumno = ?;";
+
+    try {
+        PreparedStatement ps = con.prepareStatement(sql);
+        ps.setInt(1, idAlumno);
+        ResultSet rs = ps.executeQuery();
+
+        while (rs.next()) {
+            Materia materia = new Materia();
+            materia.setIdMateria(rs.getInt("id_materia"));
+            materia.setNombre(rs.getString("nombre"));
+            materia.setAnio(rs.getInt("año"));
+            materias.add(materia);
+        }
+
+        rs.close();
+        ps.close();
+
+    } catch (SQLException ex) {
+        ex.printStackTrace();
+    }
+
+    return materias;
+}
 }
