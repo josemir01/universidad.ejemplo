@@ -58,7 +58,7 @@ public class jifVistaListarInscripciones extends javax.swing.JInternalFrame {
         String seleccionado = (String) comboAlumno.getSelectedItem();
         int idAlumno = Integer.parseInt(seleccionado.split(" - ") [0]);
         
-        List<Inscripcion> inscripciones = inscripcionData.obtenerInscripciones();
+        List<Inscripcion> inscripciones = inscripcionData.obtenerInscripcionesPorAlumno(idAlumno);
         
         for (Inscripcion ins : inscripciones){
             Materia m = ins.getIdMateria();
@@ -84,6 +84,8 @@ public class jifVistaListarInscripciones extends javax.swing.JInternalFrame {
         comboAlumno = new javax.swing.JComboBox<>();
         jScrollPane1 = new javax.swing.JScrollPane();
         tablaInscripciones = new javax.swing.JTable();
+
+        setClosable(true);
 
         jLabel1.setFont(new java.awt.Font("Nirmala UI", 1, 18)); // NOI18N
         jLabel1.setText("Listar Inscripciones");

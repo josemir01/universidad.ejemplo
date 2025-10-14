@@ -86,35 +86,31 @@ public class InscripcionData {
         }
   }
   
-  public ArrayList<Inscripcion> obtenerInscripciones(){
-      ArrayList<Inscripcion> inscriptos=new ArrayList<>();
-      String sql="Select * FROM inscripcion";
-      try{
-       PreparedStatement ps = con.prepareStatement(sql);
-       ResultSet rs = ps.executeQuery();
-       while(rs.next()){
-        int idInscripto=rs.getInt("id_inscripto");
-        int idAlumno=rs.getInt("id_alumno");
-        int idMateria=rs.getInt("id_materia");
-        int nota =rs.getInt("nota");
-        
-         Alumno alumno=ad.buscarAlumno(idAlumno);
-         Materia materia=am.buscarMateria(idMateria);
-                 
-        Inscripcion inscripto=new Inscripcion(nota,alumno,materia);
-        inscriptos.add(inscripto);
-        
-       }
-        
-         
-         
-         ps.close();
-      }catch(SQLException ex){
+  public List<Inscripcion> obtenerInscripcionesPorAlumno(int idAlumno) {
+    ArrayList<Inscripcion> inscriptos = new ArrayList<>();
+    String sql = "SELECT * FROM inscripcion WHERE id_alumno = ?";
+    try {
+        PreparedStatement ps = con.prepareStatement(sql);
+        ps.setInt(1, idAlumno);
+        ResultSet rs = ps.executeQuery();
+        while (rs.next()) {
+            int idInscripto = rs.getInt("id_inscripto");
+            int idMateria = rs.getInt("id_materia");
+            int nota = rs.getInt("nota");
+
+            Alumno alumno = ad.buscarAlumno(idAlumno);
+            Materia materia = am.buscarMateria(idMateria);
+
+            Inscripcion inscripto = new Inscripcion(nota, alumno, materia);
+            inscripto.setIdInscripto(idInscripto);
+            inscriptos.add(inscripto);
+        }
+        ps.close();
+    } catch (SQLException ex) {
         ex.printStackTrace();
-      }
-        return inscriptos;
-      
-  }
+    }
+    return inscriptos;
+}
    public List<Materia> obtenerMateriasCursadas(int idAlumno) {
     ArrayList<Materia> materias = new ArrayList<>();
 
